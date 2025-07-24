@@ -15,7 +15,7 @@ const HomePage = async ({ searchParams }: { searchParams: SearchParams }) => {
 
   return (
     <div>
-      <Home articles={articles} searchParams={query} />
+      <Home articles={articles} searchParams={query} meta={meta} />
       <div className="flex justify-center mt-8">
         <Paginate meta={meta} />
       </div>

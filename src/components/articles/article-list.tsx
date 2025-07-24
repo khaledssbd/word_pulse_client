@@ -1,4 +1,3 @@
-import { TArticle } from '@/types';
 import { ArticleCard } from './article-card';
 import { ArticleListProps } from '../Home';
 

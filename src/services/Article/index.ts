@@ -17,7 +17,7 @@ export const getAllArticles = async (
   }
 
   if (query?.tag) {
-    params.append('tag', query?.tag.toString());
+    params.append('tag', query?.tag.toString().toLowerCase());
   }
 
   try {

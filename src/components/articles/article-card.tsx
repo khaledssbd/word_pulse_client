@@ -28,6 +28,7 @@ import { TArticle } from '@/types';
 import { deleteArticle, summarizeArticle } from '@/services/Article';
 import { toast } from 'sonner';
 import { ArticleModal } from './article-modal';
+import { useUser } from '@/context/UserContext';
 
 interface ArticleCardProps {
   article: TArticle;
@@ -38,6 +39,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summary, setSummary] = useState('');
   const [error, setError] = useState('');
+  const {user} = useUser();
 
   const handleDelete = async () => {
     try {
@@ -156,30 +158,34 @@ export function ArticleCard({ article }: ArticleCardProps) {
           {isSummarizing ? 'Summarizing' : 'Summarize'}
         </Button>
 
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive" size="sm" disabled={isDeleting}>
-              {isDeleting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Delete Article</AlertDialogTitle>
-              <AlertDialogDescription>
-                Are you sure you want to delete &quot;{article.title}&quot;?
-                This action cannot be undone.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        {article.author.email === user?.email && (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" size="sm" disabled={isDeleting}>
+                {isDeleting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 w-4" />
+                )}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete Article</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete &quot;{article.title}&quot;?
+                  This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDelete}>
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
       </CardFooter>
     </Card>
   );

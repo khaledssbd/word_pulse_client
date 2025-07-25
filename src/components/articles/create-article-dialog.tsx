@@ -53,7 +53,7 @@ export function CreateArticleDialog({ children }: CreateArticleDialogProps) {
     try {
       formData.tags = formData.tags
         .split(',')
-        .map((tag: string) => tag.trim())
+        .map((tag: string) => tag.trim().toLowerCase())
         .filter((tag: string) => tag !== '');
 
       const result = await createAnArticle(formData);
